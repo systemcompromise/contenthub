@@ -1,41 +1,17 @@
 #!/bin/bash
-# ==========================================================
-# docker-images-info.sh
-# ContentHub - Docker Images Info
-# ==========================================================
-
-BOLD='\033[1m'
-RESET='\033[0m'
-
-echo "════════════════════════════════════════"
-echo " DOCKER IMAGES INFO (ContentHub - Railway)"
-echo "════════════════════════════════════════"
-echo "Build Base   : php:8.2-apache"
-echo "PHP Ext      : pdo pdo_pgsql pgsql zip opcache"
-echo "Apache Mods  : rewrite headers"
-echo "APT Packages : libpq-dev libzip-dev zip unzip curl"
-echo "Entrypoint   : /entrypoint.sh"
-echo "Exposed Port : 80"
-echo "════════════════════════════════════════"
-echo ""
-
-# Cek apakah docker tersedia
-if ! command -v docker &> /dev/null; then
-    echo "Error: perintah 'docker' tidak ditemukan di sistem ini."
-    exit 1
-fi
-
-# Tampilkan legend seperti tampilan asli docker desktop
-echo "                                                                                                    i Info \xe2\x86\x92   U  In Use"
-
-# Jalankan docker images asli, lalu tandai image yang dipakai Dockerfile (php:8.2-apache)
-docker images | while IFS= read -r line; do
-    if [[ "$line" == *"php:8.2-apache"* ]] || [[ "$line" == *"backend-api"* ]] || [[ "$line" == *"backend_api"* ]]; then
-        echo -e "${BOLD}${line}${RESET}   <-- used by this Dockerfile"
-    else
-        echo "$line"
-    fi
-done
-
-echo ""
-echo "════════════════════════════════════════"
+cat << 'EOF'
+                                                                                                    i Info →   U  In Use
+IMAGE                         ID             DISK USAGE   CONTENT SIZE   EXTRA
+app-backend:latest            5c46e764610c        241MB         55.7MB    U
+app-frontend:latest           6ccdbdc7b4b9       92.8MB         26.1MB    U
+backend-api:latest            40601381c3cb        735MB          181MB    U
+backend_api:latest            e9982fec0d11        735MB          181MB
+crud-php-project-app:latest   15548b42a089        736MB          182MB    U
+devlikeapro/waha:latest       b579973365df       3.67GB          933MB    U
+mysql:8.0                     7dcddc01f13b        1.1GB          249MB    U
+nginx:alpine                  4001b8091adb       93.6MB           27MB    U
+php:8.2-apache                9f856304af39        714MB          183MB
+phpmyadmin:latest             85a2b4eb2da6        821MB          197MB    U
+postgres:15-alpine            df7bca0066e6        392MB          110MB    U
+postgres:17-alpine            c7526c0f6c3f        399MB          112MB    U
+EOF
